@@ -7,6 +7,7 @@ namespace Controller;
 use Core\Logger\FileLogger;
 use Domains\Invoice\Repository\InvoiceRepository;
 use Core\Response;
+use Domains\Invoice\Validation\InvoiceItemValidation;
 
 /**
  * InvoiceController
@@ -27,16 +28,19 @@ class InvoiceController
 	 */
 	private $logger;
 
+	private $validation;
+
 	/**
 	 * __construct
 	 *
 	 * @param  InvoiceRepository $invoiceRepository
 	 * @return void
 	 */
-	public function __construct(InvoiceRepository $invoiceRepository, FileLogger $logger)
+	public function __construct(InvoiceRepository $invoiceRepository, FileLogger $logger, InvoiceItemValidation $validation)
 	{
 		$this->invoiceRepository = $invoiceRepository;
 		$this->logger = $logger;
+		$this->validation = $validation;
 	}
 
 	/**
@@ -47,11 +51,16 @@ class InvoiceController
 	public function create()
 	{
 		$this->logger->log(__METHOD__ . ' : start', 'info');
-		$request_body = json_decode(file_get_contents("php://input"), true);
+		$request = json_decode(file_get_contents("php://input"), true);
+		if (!empty($this->validation->validate($request))) {
+			$this->logger->log(__METHOD__ . ' : Validation error ' . print_r($this->validation->validate($request), true), 'warning');
+			Response::json(422, 'Validation error', $this->validation->validate($request));
+			return;
+		}
 
-		if ($this->invoiceRepository->create($request_body)) {
+		if ($this->invoiceRepository->create($request)) {
 			$this->logger->log('Invoice create successfully', 'info');
-			Response::json(200, 'success', ['data' => $request_body]);
+			Response::json(200, 'success', ['data' => $request]);
 		} else {
 			$this->logger->log('Invoice failed', 'error');
 			Response::json(403, 'failed', []);
