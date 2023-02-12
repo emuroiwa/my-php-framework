@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Domains\Invoice\Repository;
 
-require 'Domains/Invoice/Repository/RepositoryInterface.php';
+require 'Domains/Invoice/Repository/InvoiceItemRepositoryInterface.php';
 require 'model/InvoiceItemModel.php';
 
 use model\InvoiceItemModel;
-use Domains\Invoice\Repository\RepositoryInterface;
+use Domains\Invoice\Repository\InvoiceItemRepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
 /**
- * InvoiceRepository
+ * InvoiceItemRepository
  */
-class InvoiceRepository implements RepositoryInterface
+class InvoiceItemRepository implements InvoiceItemRepositoryInterface
 {
     /**
      * db

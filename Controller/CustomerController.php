@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Controller;
 
 use Core\Logger\FileLogger;
-use Domains\Invoice\Repository\InvoiceRepository;
+use Domains\Invoice\Repository\CustomerRepository;
 use Core\Response;
-use Domains\Invoice\Validation\InvoiceItemValidation;
+use Domains\Invoice\Validation\CustomerValidation;
 
 /**
- * InvoiceController
+ * CustomerController
  */
-class InvoiceController
+class CustomerController
 {	
 	/**
-	 * invoiceRepository
+	 * customerRepository
 	 *
 	 * @var mixed
 	 */
-	private $invoiceRepository;
+	private $customerRepository;
 	
 	/**
 	 * log
@@ -27,18 +27,25 @@ class InvoiceController
 	 * @var mixed
 	 */
 	private $logger;
-
+	
+	/**
+	 * validation
+	 *
+	 * @var mixed
+	 */
 	private $validation;
 
 	/**
 	 * __construct
 	 *
-	 * @param  InvoiceRepository $invoiceRepository
+	 * @param  CustomerRepository $customerRepository
+	 * @param  FileLogger $logger
+	 * @param  InvoiceItemValidation $validation
 	 * @return void
 	 */
-	public function __construct(InvoiceRepository $invoiceRepository, FileLogger $logger, InvoiceItemValidation $validation)
+	public function __construct(CustomerRepository $customerRepository, FileLogger $logger, CustomerValidation $validation)
 	{
-		$this->invoiceRepository = $invoiceRepository;
+		$this->customerRepository = $customerRepository;
 		$this->logger = $logger;
 		$this->validation = $validation;
 	}
@@ -48,7 +55,7 @@ class InvoiceController
 	 *
 	 * @return void
 	 */
-	public function create()
+	public function create(): void
 	{
 		$this->logger->log(__METHOD__ . ' : start', 'info');
 		$request = json_decode(file_get_contents("php://input"), true);
@@ -58,11 +65,11 @@ class InvoiceController
 			return;
 		}
 
-		if ($this->invoiceRepository->create($request)) {
-			$this->logger->log('Invoice create successfully', 'info');
+		if ($this->customerRepository->create($request)) {
+			$this->logger->log('customer create successfully', 'info');
 			Response::json(200, 'success', ['data' => $request]);
 		} else {
-			$this->logger->log('Invoice failed', 'error');
+			$this->logger->log('customer failed', 'error');
 			Response::json(403, 'failed', []);
 		}
 	}

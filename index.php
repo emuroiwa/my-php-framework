@@ -6,7 +6,7 @@ require 'vendor/autoload.php';
 include 'bootstrap.php';
 require 'Core/app.php';
 require 'Core/Response.php';
-
+use Core\Response;
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $route) {
     require 'routes.php';
