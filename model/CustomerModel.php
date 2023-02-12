@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace model;
 
-require 'Core/Db.php';
 
 use Core\Db;
 
@@ -46,7 +45,7 @@ class CustomerModel
 		try {
 			$stmt = $this->pdo->prepare(
                 'INSERT INTO ' . self::$table . ' (id, name, surname, company, street_address, city, state, phone) 
-                VALUES (:id, :name, :surname, :company, :street_address, :city, :amount, :phone, :amount)'
+                VALUES (:id, :name, :surname, :company, :street_address, :city, :state, :phone)'
             );
 			foreach ($data as $key => $value) {
 				$stmt->bindValue(':' . $key, $value);
@@ -54,7 +53,7 @@ class CustomerModel
 			$stmt->execute();
 			return true;
 		} catch (\PDOException $e) {
-			echo "Error: " . $e->getMessage();
+			throw new \PDOException("Error: " . $e->getMessage());
 		}
 		return false;
 	}

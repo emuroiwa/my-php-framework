@@ -24,17 +24,18 @@ class CustomerValidation implements CustomerValidationInterface
         if (
             !isset($data['name'])
             || empty($data['name'])
-            || !is_string($data['name']) === false
-            || strlen($data['name']) < 255
+            || !is_string($data['name'])
+            || strlen($data['name']) > 255
         ) {
+            var_dump($data['name']);
             $errors['name'] = 'name is required and must be valid';
         }
 
         if (
             !isset($data['surname'])
             || empty($data['surname'])
-            || !is_string($data['surname']) === false
-            || strlen($data['surname']) < 255
+            || !is_string($data['surname'])
+            || strlen($data['surname']) > 255
         ) {
             $errors['surname'] = 'surname is required and must be valid';
         }
@@ -42,8 +43,8 @@ class CustomerValidation implements CustomerValidationInterface
         if (
             !isset($data['company'])
             || empty($data['company'])
-            || !is_string($data['company']) === false
-            || strlen($data['company']) < 255
+            || !is_string($data['company'])
+            || strlen($data['company']) > 255
         ) {
             $errors['company'] = 'company is required and must be valid';
         }
@@ -55,8 +56,8 @@ class CustomerValidation implements CustomerValidationInterface
         if (
             !isset($data['city'])
             || empty($data['city'])
-            || !is_string($data['city']) === false
-            || strlen($data['city']) < 255
+            || !is_string($data['city'])
+            || strlen($data['city']) > 255
         ) {
             $errors['city'] = 'city is required and must be valid';
         }
@@ -64,8 +65,8 @@ class CustomerValidation implements CustomerValidationInterface
         if (
             !isset($data['state'])
             || empty($data['state'])
-            || !is_string($data['state']) === false
-            || strlen($data['state']) < 255
+            || !is_string($data['state'])
+            || strlen($data['state']) > 255
         ) {
             $errors['state'] = 'state is required and must be valid';
         }

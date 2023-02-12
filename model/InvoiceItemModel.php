@@ -3,9 +3,6 @@
 declare(strict_types=1);
 
 namespace model;
-
-require 'Core/Db.php';
-
 use Core\Db;
 
 /**

@@ -40,7 +40,7 @@ class CustomerController
 	 *
 	 * @param  CustomerRepository $customerRepository
 	 * @param  FileLogger $logger
-	 * @param  InvoiceItemValidation $validation
+	 * @param  CustomerValidation $validation
 	 * @return void
 	 */
 	public function __construct(CustomerRepository $customerRepository, FileLogger $logger, CustomerValidation $validation)
