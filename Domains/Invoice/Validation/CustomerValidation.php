@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Domains\Invoice\Validation;
 
-require 'Domains/Invoice/Validation/CustomerValidationInterface.php';
+require_once 'Domains/Invoice/Validation/ValidationInterface.php';
 
-use Domains\Invoice\Validation\CustomerValidationInterface;
+use Domains\Invoice\Validation\ValidationInterface;
 
-class CustomerValidation implements CustomerValidationInterface
+class CustomerValidation implements ValidationInterface
 {    
     /**
      * validate

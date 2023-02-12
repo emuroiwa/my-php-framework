@@ -17,7 +17,7 @@ class InvoiceDetailModel
 	 * @var mixed
 	 */
 	private $pdo;
-	protected static $table = 'invoice_details';
+	protected static $table = 'invoice';
 	/**
 	 * __construct
 	 *
@@ -38,7 +38,7 @@ class InvoiceDetailModel
 	public function save(array $data): bool
 	{
 		try {
-			$stmt = $this->pdo->prepare('INSERT INTO ' . self::$table . ' (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
+			$stmt = $this->pdo->prepare('INSERT INTO ' . self::$table . ' (id, customer_id, due_date) VALUES (:id, :customer_id, :due_date)');
 			foreach ($data as $key => $value) {
 				$stmt->bindValue(':' . $key, $value);
 			}

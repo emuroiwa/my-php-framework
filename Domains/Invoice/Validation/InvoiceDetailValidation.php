@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Domains\Invoice\Validation;
 
-require 'Domains/Invoice/Validation/InvoiceDetailValidationInterface.php';
+require_once 'Domains/Invoice/Validation/ValidationInterface.php';
 
-use Domains\Invoice\Validation\InvoiceDetailValidationInterface;
+use Domains\Invoice\Validation\ValidationInterface;
+use Ramsey\Uuid\Uuid;
 
-class InvoiceDetailValidation implements InvoiceDetailValidationInterface
+class InvoiceDetailValidation implements ValidationInterface
 {    
     /**
      * validate
@@ -22,20 +23,15 @@ class InvoiceDetailValidation implements InvoiceDetailValidationInterface
 
         // Check if required fields are present
         if (
-            !isset($data['description'])
-            || empty($data['description'])
-            || !is_string($data['description']) === false
-            || strlen($data['description']) < 255
+            !isset($data['customer_id'])
+            || empty($data['customer_id'])
+            || !Uuid::isValid($data['customer_id'])
         ) {
-            $errors['description'] = 'description is required and must be valid';
+            $errors['customer_id'] = 'Customer ID is required and must be valid';
         }
 
-        if (!isset($data['taxed']) || empty($data['taxed']) || filter_var($data['taxed'], FILTER_VALIDATE_BOOLEAN) === false) {
-            $errors['taxed'] = 'taxed is required and must be valid';
-        }
-
-        if (!isset($data['amount']) || empty($data['amount']) || filter_var($data['amount'], FILTER_VALIDATE_INT) === false) {
-            $errors['amount'] = 'amount is required and must be valid';
+        if (!isset($data['due_date']) || empty($data['due_date'])) {
+            $errors['due_date'] = 'due_date is required and must be valid';
         }
 
         return $errors;

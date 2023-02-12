@@ -4,22 +4,25 @@ namespace Core;
 
 require 'Core/Container.php';
 require 'Controller/InvoiceItemController.php';
-require 'Controller/InvoiceDetailsController.php';
+require 'Controller/InvoiceDetailController.php';
 require 'Controller/CustomerController.php';
 require 'Domains/Invoice/Repository/InvoiceItemRepository.php';
 require 'Domains/Invoice/Repository/CustomerRepository.php';
+require 'Domains/Invoice/Repository/InvoiceDetailRepository.php';
 require 'Core/Logger/FileLogger.php';
 require 'Domains/Invoice/Validation/InvoiceItemValidation.php';
 require 'Domains/Invoice/Validation/InvoiceDetailValidation.php';
 require 'Domains/Invoice/Validation/CustomerValidation.php';
 
 use Controller\InvoiceItemController;
-use Controller\InvoiceDetailsController;
+use Controller\InvoiceDetailController;
 use Controller\CustomerController;
 use Core\Logger\FileLogger;
 use Domains\Invoice\Repository\CustomerRepository;
+use Domains\Invoice\Repository\InvoiceDetailRepository;
 use Domains\Invoice\Repository\InvoiceItemRepository;
 use Domains\Invoice\Validation\CustomerValidation;
+use Domains\Invoice\Validation\InvoiceDetailValidation;
 use Domains\Invoice\Validation\InvoiceItemValidation;
 
 // create container instance
@@ -39,10 +42,10 @@ $container->set('customer_validation', function () {
     return new CustomerValidation();
 });
 $container->set('invoice_detail_validation', function () {
-    return new InvoiceItemValidation();
+    return new InvoiceDetailValidation();
 });
 $container->set('invoice_detail_repository', function () {
-    return new InvoiceItemRepository();
+    return new InvoiceDetailRepository();
 });
 $container->set('customer_repository', function () {
     return new CustomerRepository();
@@ -54,7 +57,7 @@ $container->set('InvoiceItemController', function () use ($container) {
 });
 
 $container->set('InvoiceDetailController', function () use ($container) {
-    return new InvoiceDetailsController($container->get('invoice_detail_repository'), $container->get('logger'), $container->get('invoice_item_validation'));
+    return new InvoiceDetailController($container->get('invoice_detail_repository'), $container->get('logger'), $container->get('invoice_detail_validation'));
 });
 
 $container->set('CustomerController', function () use ($container) {

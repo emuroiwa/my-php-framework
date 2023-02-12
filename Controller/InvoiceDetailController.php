@@ -12,7 +12,7 @@ use Domains\Invoice\Validation\InvoiceDetailValidation;
 /**
  * InvoiceDetailsController
  */
-class InvoiceDetailsController
+class InvoiceDetailController
 {	
 	/**
 	 * invoiceRepository
