@@ -34,7 +34,7 @@ class InvoiceRepository implements RepositoryInterface
         try {
             $uuid = Uuid::uuid1();
             $data['id'] = $uuid->toString();
-            $stmt = $this->pdo->prepare('INSERT INTO invoice_details (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
+            $stmt = $this->pdo->prepare('INSERT INTO invoice_items (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
             foreach ($data as $key => $value) {
                 $stmt->bindValue(':' . $key, $value);
             }
