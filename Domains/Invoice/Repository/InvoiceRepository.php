@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Domains\Invoice\Repository;
 
 require 'Domains/Invoice/Repository/RepositoryInterface.php';
-require 'Core/Db.php';
+require 'model/InvoiceItemModel.php';
 
-use Core\Db;
+use model\InvoiceItemModel;
 use Domains\Invoice\Repository\RepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -21,28 +21,17 @@ class InvoiceRepository implements RepositoryInterface
      *
      * @var mixed
      */
-    private $pdo;
+    protected $model;
 
     public function __construct()
     {
-        $db = Db::getInstance();
-        $this->pdo = $db->getConnection();
+        $this->model = new InvoiceItemModel();
     }
 
     public function create(array $data)
     {
-        try {
-            $uuid = Uuid::uuid1();
-            $data['id'] = $uuid->toString();
-            $stmt = $this->pdo->prepare('INSERT INTO invoice_items (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
-            foreach ($data as $key => $value) {
-                $stmt->bindValue(':' . $key, $value);
-            }
-            $stmt->execute();
-            return true;
-        } catch (\PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-        return false;
+        $uuid = Uuid::uuid1();
+        $data['id'] = $uuid->toString();
+        return $this->model->save($data);
     }
 }
