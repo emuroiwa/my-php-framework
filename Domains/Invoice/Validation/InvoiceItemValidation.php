@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Domains\Invoice\Validation;
 
-require 'Domains/Invoice/Validation/InvoiceItemValidationInterface.php';
+require_once 'Domains/Invoice/Validation/ValidationInterface.php';
 
-use Domains\Invoice\Validation\InvoiceItemValidationInterface;
+use Domains\Invoice\Validation\ValidationInterface;
 
-class InvoiceItemValidation implements InvoiceItemValidationInterface
+class InvoiceItemValidation implements ValidationInterface
 {    
     /**
      * validate
@@ -24,7 +24,7 @@ class InvoiceItemValidation implements InvoiceItemValidationInterface
         if (
             !isset($data['description'])
             || empty($data['description'])
-            || !is_string($data['description']) === false
+            || !is_string($data['description'])
             || strlen($data['description']) < 255
         ) {
             $errors['description'] = 'description is required and must be valid';

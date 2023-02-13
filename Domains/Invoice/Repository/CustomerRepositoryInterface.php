@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace Domains\Invoice\Repository;
 
-interface RepositoryInterface
+interface CustomerRepositoryInterface
 {
     public function create(array $data);
 }

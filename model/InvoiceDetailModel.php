@@ -6,9 +6,9 @@ namespace model;
 use Core\Db;
 
 /**
- * InvoiceItemModel
+ * InvoiceDetailModel
  */
-class InvoiceItemModel
+class InvoiceDetailModel
 {
 
 	/**
@@ -17,7 +17,7 @@ class InvoiceItemModel
 	 * @var mixed
 	 */
 	private $pdo;
-	protected static $table = 'invoice_items';
+	protected static $table = 'invoice';
 	/**
 	 * __construct
 	 *
@@ -38,7 +38,7 @@ class InvoiceItemModel
 	public function save(array $data): bool
 	{
 		try {
-			$stmt = $this->pdo->prepare('INSERT INTO ' . self::$table . ' (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
+			$stmt = $this->pdo->prepare('INSERT INTO ' . self::$table . ' (id, customer_id, due_date) VALUES (:id, :customer_id, :due_date)');
 			foreach ($data as $key => $value) {
 				$stmt->bindValue(':' . $key, $value);
 			}

@@ -3,12 +3,14 @@
 declare(strict_types=1);
 
 namespace model;
+
+
 use Core\Db;
 
 /**
- * InvoiceItemModel
+ * CustomerModel
  */
-class InvoiceItemModel
+class CustomerModel
 {
 
 	/**
@@ -17,7 +19,10 @@ class InvoiceItemModel
 	 * @var mixed
 	 */
 	private $pdo;
-	protected static $table = 'invoice_items';
+
+
+	protected static $table = 'customer';
+
 	/**
 	 * __construct
 	 *
@@ -38,14 +43,17 @@ class InvoiceItemModel
 	public function save(array $data): bool
 	{
 		try {
-			$stmt = $this->pdo->prepare('INSERT INTO ' . self::$table . ' (id, description, taxed, amount) VALUES (:id, :description, :taxed, :amount)');
+			$stmt = $this->pdo->prepare(
+                'INSERT INTO ' . self::$table . ' (id, name, surname, company, street_address, city, state, phone) 
+                VALUES (:id, :name, :surname, :company, :street_address, :city, :state, :phone)'
+            );
 			foreach ($data as $key => $value) {
 				$stmt->bindValue(':' . $key, $value);
 			}
 			$stmt->execute();
 			return true;
 		} catch (\PDOException $e) {
-			echo "Error: " . $e->getMessage();
+			throw new \PDOException("Error: " . $e->getMessage());
 		}
 		return false;
 	}
