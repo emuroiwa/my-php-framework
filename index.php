@@ -8,7 +8,6 @@ require 'Core/app.php';
 require 'Core/Response.php';
 require_once 'Core/Db.php';
 
-use Core\Db;
 use Core\Response;
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $route) {
